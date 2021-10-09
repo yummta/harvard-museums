@@ -7,6 +7,7 @@ import { useInView } from "react-intersection-observer";
 import ChevronDoubleDown from "@/public/chevron-double-down.svg";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
+const APIKEY = "ae09da2f-5a2a-468b-86a3-ef0eaa21d619";
 
 const joinImagesData = (imagesData = []) => {
   return imagesData.reduce((acc, cur) => {
@@ -94,12 +95,10 @@ export default function Home() {
                 className={"relative h-full overflow-hidden"}
                 key={image.imageid}
               >
-                <div
-                  className="m-20 p-10 grid place-items-center "
-                  style={{ height: "70vh" }}
-                >
+                <div className="m-20 p-10 grid place-items-center ">
                   <div className="relative">
                     <Image
+                      className="bg-gray-100"
                       src={`${image.baseimageurl}?width=450`}
                       alt={image.alttext}
                       width={450}
