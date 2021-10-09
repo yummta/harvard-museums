@@ -3,11 +3,11 @@ import Image from "next/image";
 import useSWRInfinite from "swr/infinite";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const joinImagesData = (imagesData = []) => {
-  console.log(imagesData);
   return imagesData.reduce((acc, cur) => {
     return [...acc, ...cur.records];
   }, []);
@@ -15,11 +15,9 @@ const joinImagesData = (imagesData = []) => {
 
 export default function Home() {
   const [gallery, setGallery] = useState([]);
-  const {
-    data: imagesData,
-    size,
-    setSize,
-  } = useSWRInfinite(
+  const { ref: snitchRef, inView } = useInView({ threshold: 0 });
+
+  const { data: imagesData, setSize } = useSWRInfinite(
     (pageIndex) =>
       `https://api.harvardartmuseums.org/image?apikey=${
         process.env.NEXT_PUBLIC_APIKEY
@@ -27,12 +25,21 @@ export default function Home() {
     fetcher,
     {
       revalidateOnFocus: false,
+      revalidateAll: false,
     }
   );
+
+  const isReachingEnd = !imagesData?.slice(-1)[0].info.next;
 
   useEffect(() => {
     setGallery(joinImagesData(imagesData));
   }, [imagesData]);
+
+  useEffect(() => {
+    if (!isReachingEnd & inView) {
+      setSize((size) => size + 1);
+    }
+  }, [inView, isReachingEnd, setSize]);
 
   return (
     <div>
@@ -49,10 +56,8 @@ export default function Home() {
           {gallery.length &&
             gallery.map((image, imageIndex) => (
               <div
-                className={clsx(
-                  "relative h-full overflow-hidden",
-                  gallery.length - 3 === imageIndex && "border border-red-400"
-                )}
+                ref={gallery.length - 3 === imageIndex ? snitchRef : undefined}
+                className={clsx("relative h-full overflow-hidden")}
                 key={image.imageid}
               >
                 <Image
@@ -65,7 +70,6 @@ export default function Home() {
               </div>
             ))}
         </div>
-        <button onClick={() => setSize(size + 1)}>Load More</button>
       </main>
     </div>
   );
