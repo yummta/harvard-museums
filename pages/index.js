@@ -73,7 +73,7 @@ export default function Home() {
           />
           <ChevronDoubleDown
             className={clsx(
-              "w-6 absolute m-auto transition-opacity duration-500",
+              "w-6 absolute m-auto transition-opacity duration-500 mx-auto left-0 right-0",
               coverInView ? "opacity-100" : "opacity-0"
             )}
             style={{
