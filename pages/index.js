@@ -15,7 +15,10 @@ const joinImagesData = (imagesData = []) => {
 
 export default function Home() {
   const [gallery, setGallery] = useState([]);
-  const { ref: snitchRef, inView } = useInView({ threshold: 0 });
+  const { ref: snitchRef, inView: snitchInView } = useInView({ threshold: 0 });
+  const { ref: coverRed, inView: coverInView } = useInView({
+    threshold: 0.5,
+  });
 
   const { data: imagesData, setSize } = useSWRInfinite(
     (pageIndex) =>
@@ -36,10 +39,10 @@ export default function Home() {
   }, [imagesData]);
 
   useEffect(() => {
-    if (!isReachingEnd & inView) {
+    if (!isReachingEnd & snitchInView) {
       setSize((size) => size + 1);
     }
-  }, [inView, isReachingEnd, setSize]);
+  }, [snitchInView, isReachingEnd, setSize]);
 
   return (
     <div>
@@ -51,7 +54,24 @@ export default function Home() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main
+        className={clsx(
+          "transition-colors duration-500",
+          coverInView ? "bg-red-200" : "bg-gray-900"
+        )}
+      >
+        <div
+          ref={coverRed}
+          className="h-screen w-screen grid place-items-center"
+        >
+          <Image
+            layout="fixed"
+            src="/harvard-logo.png"
+            alt="harvard logo"
+            width={353}
+            height={75}
+          />
+        </div>
         <div className="text-center max-w-7xl m-auto">
           {gallery.length &&
             gallery.map((image, imageIndex) => (
