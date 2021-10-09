@@ -4,6 +4,7 @@ import useSWRInfinite from "swr/infinite";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import ChevronDoubleDown from "@/public/chevron-double-down.svg";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -34,6 +35,8 @@ export default function Home() {
 
   const isReachingEnd = !imagesData?.slice(-1)[0].info.next;
 
+  console.log(gallery);
+
   useEffect(() => {
     setGallery(joinImagesData(imagesData));
   }, [imagesData]);
@@ -57,12 +60,12 @@ export default function Home() {
       <main
         className={clsx(
           "transition-colors duration-500",
-          coverInView ? "bg-red-200" : "bg-gray-900"
+          coverInView ? "bg-red-200" : "white"
         )}
       >
         <div
           ref={coverRed}
-          className="h-screen w-screen grid place-items-center"
+          className="h-screen w-screen grid place-items-center relative"
         >
           <Image
             layout="fixed"
@@ -71,22 +74,78 @@ export default function Home() {
             width={353}
             height={75}
           />
+          <ChevronDoubleDown
+            className={clsx(
+              "w-6 absolute m-auto transition-opacity duration-500",
+              coverInView ? "opacity-100" : "opacity-0"
+            )}
+            style={{
+              bottom: "12%",
+              animation:
+                "shake-vertical 2s cubic-bezier(0.455, 0.030, 0.515, 0.955) infinite both;",
+            }}
+          />
         </div>
-        <div className="text-center max-w-7xl m-auto">
+        <div className="text-center max-w-7xl m-auto divide-y divide-gray-300">
           {gallery.length &&
             gallery.map((image, imageIndex) => (
               <div
                 ref={gallery.length - 3 === imageIndex ? snitchRef : undefined}
-                className={clsx("relative h-full overflow-hidden")}
+                className={"relative h-full overflow-hidden"}
                 key={image.imageid}
               >
-                <Image
-                  src={`${image.baseimageurl}?width=300`}
-                  alt={image.alttext}
-                  width={300}
-                  height={480}
-                  loading="lazy"
-                />
+                <div
+                  className="m-20 p-10 grid place-items-center "
+                  style={{ height: "70vh" }}
+                >
+                  <div className="relative">
+                    <Image
+                      src={`${image.baseimageurl}?width=450`}
+                      alt={image.alttext}
+                      width={450}
+                      height={720}
+                      loading="lazy"
+                    />
+                    <div className="absolute left-full ml-8 top-8 font-serif text-left w-60">
+                      <ul className="text-sm space-y-2">
+                        <li>
+                          <span className="text-gray-500 mr-3">Idsid: </span>{" "}
+                          {image.idsid ? (
+                            image.idsid
+                          ) : (
+                            <span className="text-gray-500">N/D</span>
+                          )}
+                        </li>
+
+                        <li>
+                          <span className="text-gray-500 mr-3">Date: </span>
+                          <span className="italic">
+                            {image.date ? (
+                              image.date
+                            ) : (
+                              <span className="text-gray-500">N/D</span>
+                            )}
+                          </span>
+                        </li>
+                        <li>
+                          <span className="text-gray-500 mr-3">
+                            Technique:{" "}
+                          </span>
+                          <span className="italic">
+                            {image.technique ? (
+                              image.technique
+                            ) : (
+                              <span className="text-gray-500">N/D</span>
+                            )}
+                          </span>
+                        </li>
+                      </ul>
+                      {image.description && (
+                        <p className="italic mt-6">{image.description}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
         </div>
