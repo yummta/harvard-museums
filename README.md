@@ -22,23 +22,23 @@ Now open [http://localhost:3000](http://localhost:3000) with your browser to see
 
 ## Concerns
 
-### Concern 1
+**Concern 1**
 
 Cómo inicialmente parecía algo sencillo (el reto técnico) decidí aprovechar la oportunidad para utilizar `Nextjs`. He estado oyendo bastante sobre y creí que sería interesante aprenderlo resolviendo el reto. Si bien me alivió muchas configuraciones iniciales, de todas formas había una curva de aprendizaje de algunos conceptos básicos que me llevó un poco de tiempo entenderlo. No fue tanto un problema, pero tal vez para la próxima deba considerar si el usar una herramienta nueva para un reto técnico sea la mejor idea 🏳.
 
-### Concern 2
+**Concern 2**
 
 No solo fue `next` con lo que decidí experimentar. Durante la semana pasada estuve leyendo sobre `intersection observer` y también quise utilizarlo en el reto. En vez de hacer el cálculo en base a estar calculando constantemente el scroll, traer más data cuando uno de los últimos elementos aparece en la pantalla. Esto también tuvo su pequeña curva de aprendizaje.
 
-### Concern 3
+**Concern 3**
 
 El hecho de no tener una UI me hizo reconsiderar más de una vez cómo debería ser mi layout. Me llevó a invertir más tiempo. Al final opte por hacer algo sencillo pero igual me interesabe tener una presentación _de producto final_.
 
-### Concern 4
+**Concern 4**
 
 Mi apikey estaba hardcoeada desde mi segundo commit. Si bien al final borré la credencial, esta seguía en el historial de cambios de git. La solución fue hacer un rebase interactivo y editar el commit donde se agregaba. _Primera vez que utilizo algo diferente a `squash` en un rebase interactivo._
 
-### Conclusión
+**Conclusión**
 
 Calculé mal mis tiempos, y el utilizar herramientas nuevas tuvo un coste de tiempo que subestimé:
 
@@ -54,8 +54,9 @@ Elegí utilizar `Nextjs` para no lidiar con configuraciones/arquitectura/deploy 
 
 ## Trade-offs que ves en tu implementación y si tuvieras más tiempo qué cambios o cosas diferente harías
 
-### TODO
+**TODO**
 
+- [ ] Improve A11y 🚨
 - [ ] Add tests 😔.
 - [ ] Add support to mobile 😔.
 - [ ] Add support for virtual scrolling.
@@ -66,3 +67,7 @@ Elegí utilizar `Nextjs` para no lidiar con configuraciones/arquitectura/deploy 
 https://github.com/yummta/harvard-museums/blob/main/pages/index.js#L18-L21
 
 Aunque aquí es básicamente utilizar el hook, **me encató** la idea de usar el intersection obsever para hacer el request en vez de estar pendiente del scroll y hacer el calculo manualmente. Inicialmente pensé crearme un custom hook haciendo la implementación porque ya había jugado un poco con el intersection obsever nativo en codepen, pero por cuestion de tiempo decidí buscar la librería que terminé utilizando. No me arrepiento ✌🏾.
+
+## 🚀 Deploye on Vercel
+
+https://harvard-museums.vercel.app
