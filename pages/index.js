@@ -5,9 +5,7 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import ChevronDoubleDown from "@/public/chevron-double-down.svg";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
-const APIKEY = "ae09da2f-5a2a-468b-86a3-ef0eaa21d619";
+import { fetcher } from "utilities/api";
 
 const joinImagesData = (imagesData = []) => {
   return imagesData.reduce((acc, cur) => {
@@ -35,8 +33,6 @@ export default function Home() {
   );
 
   const isReachingEnd = !imagesData?.slice(-1)[0].info.next;
-
-  console.log(gallery);
 
   useEffect(() => {
     setGallery(joinImagesData(imagesData));
